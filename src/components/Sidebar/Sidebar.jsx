@@ -38,7 +38,6 @@ const Sidebar = ({ setMobileOpen }) => {
     (state) => state.currentGenreOrCategory
   );
 
-  console.log(data);
   return (
     <>
       <Link to="/" className={classes.imageLink}>

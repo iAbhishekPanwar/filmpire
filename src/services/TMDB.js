@@ -7,10 +7,6 @@ export const tmdbApi = createApi({
   reducerPath: "tmdbApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3" }),
   endpoints: (builder) => ({
-    //Get Movies by Searching
-    if(searchQuery) {
-      return `/search/movie?query=${searchQuery}&page=${page}&api_key=${tmdbApiKey}`;
-    },
     /*Get Movie Genres*/
     getGenres: builder.query({
       query: () => `genre/movie/list?api_key=${tmdbApiKey}`,
@@ -18,6 +14,10 @@ export const tmdbApi = createApi({
     // Get movies by [type]
     getMovies: builder.query({
       query: ({ genreIdOrCategoryName, page, searchQuery }) => {
+        //Get Movies by Searching
+        if (searchQuery) {
+          return `/search/movie?query=${searchQuery}&page=${page}&api_key=${tmdbApiKey}`;
+        }
         //Movie by Category
         if (
           genreIdOrCategoryName &&
