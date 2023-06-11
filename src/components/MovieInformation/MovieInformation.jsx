@@ -23,17 +23,23 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { MovieList } from "..";
 
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
 
 import useStyles from "./styles";
-import { useGetMoviesQuery } from "../../services/TMDB";
-import { useGetMovieQuery } from "../../services/TMDB";
+// import { useGetMoviesQuery } from "../../services/TMDB";
+import {
+  useGetMovieQuery,
+  useGetRecommendationsQuery,
+} from "../../services/TMDB";
 import genreIcons from "../../assets/genres";
 
 const MovieInformation = () => {
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
+  const { data: recommendations, isFetching: isRecommendationsFetching } =
+    useGetRecommendationsQuery({ list: "/recommendations", movie_id: id });
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -211,6 +217,17 @@ const MovieInformation = () => {
           </div>
         </Grid>
       </Grid>
+      <Box marginTop="5rem" width="100%">
+        <Typography variant="h3" gutterBottom align="center">
+          You might also like
+        </Typography>
+        {/* Looping through recommended movies  */}
+        {recommendations ? (
+          <MovieList movies={recommendations} numberOfMovies={12} />
+        ) : (
+          <Box>Sorry nothing was found.</Box>
+        )}
+      </Box>
     </Grid>
   );
 };
